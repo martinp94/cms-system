@@ -56,6 +56,7 @@ if(isset($_GET['usersonline']))
     <![endif]-->
 
     <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <script src="js/jquery.js"></script>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/10.1.0/classic/ckeditor.js"></script>

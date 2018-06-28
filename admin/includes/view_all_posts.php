@@ -1,5 +1,7 @@
 <?php
 
+include 'delete_modal.php';
+
 if(isset($_POST['checkBoxArray']))
 {
 
@@ -155,7 +157,7 @@ if(isset($_POST['checkBoxArray']))
             </td>
             <td><?php echo $row['post_date']; ?></td>
             <td><?php echo $row['post_views_count']; ?></td>
-            <td> <a href="../post.php?p_id=<?php echo $row['post_id']; ?>">View</a> <br> <a href="?source=edit_post&p_id=<?php echo $row['post_id']; ?>">Edit</a> <br> <a id="delete" href="?delete=<?php echo $row['post_id']; ?>">Delete</a> </td>
+            <td> <a href="../post.php?p_id=<?php echo $row['post_id']; ?>">View</a> <br> <a href="?source=edit_post&p_id=<?php echo $row['post_id']; ?>">Edit</a> <br> <a href="#" rel="<?php echo $row['post_id']; ?>" class="delete_link">Delete</a> </td>
         </tr>
 
 
@@ -169,12 +171,46 @@ if(isset($_POST['checkBoxArray']))
 </form>
 
 <script>
- document.querySelectorAll("#delete").forEach((del) => {
+
+/* document.querySelectorAll(".delete_link").forEach((del) => {
     del.addEventListener("click", (e) => {
-        if(!confirm("Sigurni ste da zelite da obrisete post?")) {
-            e.preventDefault();
-        }
+        
+
+        const id = e.currentTarget.getAttribute("rel");
+        const delete_url = "posts.php?delete=" + id + "";
+
+        document.querySelector(".modal_delete_link").setAttribute("href", delete_url);
+
+        
+        e.currentTarget.setAttribute("data-toggle", "modal");
+        e.currentTarget.setAttribute("data-target", "#myModal");
+
+        e.preventDefault();
     });
- });
+ });*/
+$(() => {
+
+    document.querySelectorAll(".delete_link").forEach((del) => {
+
+        const id = del.getAttribute("rel");
+        const delete_url = "posts.php?delete=" + id + "";
+
+        
+
+        const modal_delete_link = document.querySelector(".modal_delete_link");
+        modal_delete_link.setAttribute("href", delete_url);
+
+        del.addEventListener("click", () => {
+            $("#myModal").modal("show");
+        });
+        
+
+
+     });
+
+});
+
+
+
 </script>
 
