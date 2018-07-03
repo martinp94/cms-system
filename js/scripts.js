@@ -8,7 +8,7 @@ ClassicEditor
 
 
 function loadUsersOnline() {
-	$.get("index.php?usersonline", function(data) {
+	$.get("/cms/index/usersonline", function(data) {
 		const displayUsersOnline = data.trim();
 		console.log(displayUsersOnline);
 		$(".users_online").html("Users Online: " + displayUsersOnline);

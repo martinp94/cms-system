@@ -1,6 +1,6 @@
+<?php require_once './vendor/autoload.php'; ?>
 <?php include "functions.php"; ?>
 <?php 
-    session_start();
     ob_start();
 
     if(isset($_GET['usersonline']))
@@ -27,10 +27,10 @@
     <title>Blog Home - Start Bootstrap Template</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="/cms/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="css/blog-home.css" rel="stylesheet">
+    <link href="/cms/css/blog-home.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

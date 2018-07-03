@@ -157,7 +157,18 @@ if(isset($_POST['checkBoxArray']))
             </td>
             <td><?php echo $row['post_date']; ?></td>
             <td><?php echo $row['post_views_count']; ?></td>
-            <td> <a href="../post.php?p_id=<?php echo $row['post_id']; ?>">View</a> <br> <a href="?source=edit_post&p_id=<?php echo $row['post_id']; ?>">Edit</a> <br> <a href="#" rel="<?php echo $row['post_id']; ?>" class="delete_link">Delete</a> </td>
+            <td> 
+                <a class="btn btn-primary" href="../post/<?php echo $row['post_id']; ?>">View</a> | 
+                <a class="btn btn-warning" href="?source=edit_post&p_id=<?php echo $row['post_id']; ?>">Edit</a> 
+                |
+                <form method="POST">
+                    <input type="hidden" name="delete_post_id" value="<?php echo $row['post_id']; ?>">
+
+                    <button class="btn btn-danger" type="submit" name="deletepost">Delete</button>
+                </form>
+                 
+
+            </td>
         </tr>
 
 
@@ -172,22 +183,6 @@ if(isset($_POST['checkBoxArray']))
 
 <script>
 
-/* document.querySelectorAll(".delete_link").forEach((del) => {
-    del.addEventListener("click", (e) => {
-        
-
-        const id = e.currentTarget.getAttribute("rel");
-        const delete_url = "posts.php?delete=" + id + "";
-
-        document.querySelector(".modal_delete_link").setAttribute("href", delete_url);
-
-        
-        e.currentTarget.setAttribute("data-toggle", "modal");
-        e.currentTarget.setAttribute("data-target", "#myModal");
-
-        e.preventDefault();
-    });
- });*/
 $(() => {
 
     document.querySelectorAll(".delete_link").forEach((del) => {

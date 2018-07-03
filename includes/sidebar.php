@@ -1,6 +1,7 @@
 <div class="col-md-4">
 
     <?php
+
         if(!isset($_SESSION['username']))
         {
     ?>
@@ -8,7 +9,7 @@
     <!-- Login -->
     <div class="well">
         <h4>Login</h4>
-        <form method="POST" action="includes/login.php">
+        <form method="POST" action="/cms/login-complete.php">
             <div class="form-group">
                 
                 <input name="username" type="text" class="form-control" placeholder="Enter username">
@@ -23,9 +24,13 @@
                     Login
                 </button>
             </div>
+
+            
         </form>
         <!-- /.input-group -->
-        <p>Nemate nalog? <br> <a href="registration.php">Registracija</a></p>
+        <p>Nemate nalog? <br> <a href="registration">Registracija</a></p>
+
+        <p> <a href="/cms/forgot-complete.php?forgot=<?php echo uniqid(true); ?>">Forgot password?</a> </p>
     </div>
 
     <?php
@@ -65,18 +70,15 @@
                     <?php 
 
                     $query = "SELECT * FROM categories";
+                    
                     $categories = mysqli_query($connection, $query);
 
-                    while($row = mysqli_fetch_assoc($categories))
-                    {
-                        
-                    
-
+                    while($row = mysqli_fetch_assoc($categories)) :
                     ?>
-                    <li><a href="category.php?category=<?php echo $row['cat_id']; ?>"><?php echo $row['cat_title']; ?></a> </li>
+                        <li><a href="/cms/category/<?php echo $row['cat_id']; ?>"><?php echo $row['cat_title']; ?></a> </li>
                     
                     <?php
-                    }
+                    endwhile;
                     ?>
                 </ul>
             </div>

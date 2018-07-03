@@ -1,7 +1,7 @@
 <table class="table table-hover table-bordered">
     <thead>
         <tr>
-            <th>Id</th>
+            
             <th>Username</th>
             <th>Firstname</th>
             <th>Lastname</th>
@@ -66,7 +66,7 @@
     ?>
 
     <tr>
-        <td><?php echo $user_id; ?></td>
+        
         <td><?php echo $user_username; ?></td>
         <td><?php echo $user_firstname; ?></td>
         <td><?php echo $user_lastname; ?></td>

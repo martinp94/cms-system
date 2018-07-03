@@ -5,7 +5,6 @@
         <!-- Navigation -->
         <?php include "includes/admin_navigation.php"; ?>
 
-
         <div id="page-wrapper">
 
             <div class="container-fluid">
@@ -73,7 +72,7 @@
         $(function(){
 
             editCategoryTitle = function() {
-                $("#title" + selectedId).html('<input id=edit' + selectedId + ' type="text" >');
+                $("#title" + selectedId).html('<input id=edit' + selectedId + ' type="text" />');
                 $("#edit" + selectedId).blur(function(){
 
                     let title = $(this).val();
@@ -85,11 +84,12 @@
                     });
 
                     $.ajax({
-                        url : 'functions.php',
+                        url : 'includes/editcategory.php',
                         type : 'post',
                         data : { editCategory : toSend},
                         dataType : 'text',
                         success : function(data) {
+                            console.log(data['cat_title']);
                             $("#title" + selectedId).html(data);
                         },
                         error : function(err) {

@@ -1,0 +1,19 @@
+{
+    "name": "mp/cms",
+    "authors": [
+        {
+            "name": "Martin Popovic",
+            "email": "martinpopovicfit@gmail.com"
+        }
+    ],
+    "autoload": {
+        "classmap": [
+            "classes"
+        ]
+    },
+    "require": {
+        "phpmailer/phpmailer": "^6.0",
+        "pusher/pusher-php-server": "^3.0",
+        "vlucas/phpdotenv": "^2.5"
+    }
+}

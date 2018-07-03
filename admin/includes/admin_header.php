@@ -1,9 +1,10 @@
-
+<?php ob_start(); ?>
+<?php session_start(); ?>
 <?php include "../includes/db.php"; ?>
 <?php include "functions.php"; ?>
 
-<?php ob_start(); ?>
-<?php session_start(); ?>
+
+
 
 <?php 
 
@@ -58,8 +59,13 @@ if(isset($_GET['usersonline']))
     <link rel="stylesheet" type="text/css" href="css/styles.css">
     <script src="js/jquery.js"></script>
 
+
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/10.1.0/classic/ckeditor.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<script src="https://js.pusher.com/4.1/pusher.min.js"></script>
+
 
 </head>
 

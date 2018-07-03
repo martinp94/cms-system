@@ -66,10 +66,42 @@
                 </p>
                 <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $post_date; ?></p>
                 <hr>
-                <img class="img-responsive" src="images/<?php echo $post_image; ?>" alt="">
+                <img class="img-responsive" src="/cms/images/<?php echo $post_image; ?>" alt="">
                 <hr>
                 <p><?php echo $post_content; ?></p>
+
                 
+                <div class="row">
+
+                    <div class="col-md-2 pull-right">
+                        <?php 
+
+                            if(countLikes($connection, $the_post_id) == 0)
+                            {
+                                echo "<a id='like' href='#'> <strong> <span class='glyphicon glyphicon-thumbs-up'> </span> Like </strong> </a>";
+                            }
+                            else
+                            {
+                                echo "<a id='like' href='#'> <strong> <span class='glyphicon glyphicon-thumbs-down'> </span> Dislike </strong> </a>";
+                            }
+
+
+                        ?>
+                    </div>
+                    
+
+                    
+                </div>
+
+                <div id class="row">
+                    <div class="col-md-2 pull-right">
+                        <strong>Likes:</strong>
+                        <span class='numlikes'>
+                            <?php echo countLikes($connection, $post_id, true); ?>
+                        </span>
+                    </div>
+                    
+                </div>
 
                 <hr>
 
@@ -131,6 +163,8 @@
                     }
                 ?>
 
+
+
                 <!-- Comments Form -->
                 <div class="well">
                     <h4>Leave a Comment:</h4>
@@ -154,6 +188,8 @@
                         <button name="create_comment" type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
+
+                
 
 
                 <!-- Posted Comments -->
@@ -186,6 +222,8 @@
 
                 <?php } ?>
 
+                
+
             </div>
 
             <!-- Blog Sidebar Widgets Column -->
@@ -196,3 +234,54 @@
         
 
 <?php include "includes/footer.php"; ?>
+
+
+<script>
+    
+    const p_id = <?php echo $post_id; ?>;    
+
+    const numlikes = document.querySelector(".numlikes");
+
+    document.querySelector("#like").addEventListener('click', likeEventHandler);
+
+    function likeEventHandler(e) {
+
+        const link = e.currentTarget;
+        
+
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', '/cms/functions.php', true);
+
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        xhr.onreadystatechange = function() {
+            if(xhr.readyState == 4 && xhr.status == 200) {
+                console.log(xhr.responseText);
+                link.innerHTML = xhr.responseText;
+            }
+        }
+
+        xhr.send("post_id=" + p_id);
+
+        e.preventDefault();
+    }
+
+
+    setInterval(() => {
+        let xhr = new XMLHttpRequest();
+
+        let url = '/cms/functions.php?p_count=' + p_id;
+        xhr.open("GET", url , true);
+
+        xhr.onreadystatechange = function() {
+            if(xhr.readyState == 4 && xhr.status == 200) {
+                console.log(xhr.responseText);
+                numlikes.textContent = xhr.responseText;
+                
+            }
+        }
+
+        xhr.send();
+    }, 1000);
+
+</script>

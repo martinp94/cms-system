@@ -183,3 +183,24 @@
 
 
     <?php include_once "includes/admin_footer.php"; ?>
+
+    <script>
+        
+    $(() =>{
+
+        
+
+        var pusher = new Pusher('7bf76b3c4ec1334bf50c', {
+          cluster: 'eu',
+          encrypted: true
+        });
+
+        var notificationChannel = pusher.subscribe('notifications');
+        notificationChannel.bind('new-user', function(notification) {
+            toastr.success(notification['message'], 'New user registered!', {timeOut: 5000});
+        });
+
+        
+    });
+
+    </script>

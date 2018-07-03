@@ -38,9 +38,8 @@ document.body.prepend(divBoxHtml.body.firstChild);
 $("#load-screen").delay().fadeOut(600, () => $(this).remove());
 
 function loadUsersOnline() {
-	$.get("index.php?usersonline", function(data) {
+	$.get("/cms/admin/index.php?usersonline", function(data) {
 		const displayUsersOnline = data.trim();
-		console.log(displayUsersOnline);
 		$(".users_online").html("Users Online: " + displayUsersOnline);
 	});
 }

@@ -31,72 +31,86 @@
 
                 $offset = ($current_page - 1) * $items_per_page;
 
-                $query = "SELECT * FROM posts WHERE post_status = 'Published' ORDER BY post_date DESC
-                          LIMIT {$items_per_page} OFFSET {$offset}";
-                $result = mysqli_query($connection, $query);
-
-                if(mysqli_num_rows($result))
-                {
-                    while($row = mysqli_fetch_assoc($result))
+                if(isset($_SESSION['role'])) {
+                    if($_SESSION['role'] == 'admin')
                     {
-                        $post_id = $row['post_id'];
-                        $post_title = $row['post_title'];
-                        $post_author = $row['post_author'];
-                        $post_date = $row['post_date'];
-                        $post_content = $row['post_content'];
-                        $post_image = $row['post_image'];
-                    ?>
+                        $query = "SELECT * FROM posts ORDER BY post_date DESC
+                          LIMIT {$items_per_page} OFFSET {$offset}";
+                    }
+                    else
+                    {
+                        $query = "SELECT * FROM posts WHERE post_status = 'Published' ORDER BY post_date DESC LIMIT {$items_per_page} OFFSET {$offset}";
+                    }
 
-                    <!-- First Blog Post -->
-                    <h2>
-                        <a href="post.php?p_id=<?php echo $post_id; ?>"><?php echo $post_title; ?></a>
-                    </h2>
-                    <p class="lead">
-                        by 
-                        <?php 
+                    
+                
+                    $result = mysqli_query($connection, $query);
 
-                        $author_id = $row['post_author']; 
+                    if(mysqli_num_rows($result))
+                    {
                         
-                        $author = mysqli_query($connection, "SELECT username FROM users
-                                                             WHERE user_id = {$author_id}") 
-                                                            or die(mysqli_error($connection));
-                        echo mysqli_fetch_assoc($author)['username'];
-
+                        while($row = mysqli_fetch_assoc($result))
+                        {
+                            $post_id = $row['post_id'];
+                            $post_title = $row['post_title'];
+                            $post_author = $row['post_author'];
+                            $post_date = $row['post_date'];
+                            $post_content = $row['post_content'];
+                            $post_image = $row['post_image'];
                         ?>
-                    </p>
-                    <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $post_date; ?></p>
-                    <hr>
 
-                    <a href="post.php?p_id=<?php echo $post_id; ?>">
-                        <img class="img-responsive" src="images/<?php echo $post_image; ?>" alt="">
-                    </a>
-                    
-                    <hr>
-                    <p><?php echo $post_content; ?></p>
-                    
+                        <!-- First Blog Post -->
+                        <h2>
+                            <a href="/cms/post/<?php echo $post_id; ?>"><?php echo $post_title; ?></a>
+                        </h2>
+                        <p class="lead">
+                            by 
+                            <?php 
 
-                    <hr>
+                            $author_id = $row['post_author']; 
+                            
+                            $author = mysqli_query($connection, "SELECT username FROM users
+                                                                 WHERE user_id = {$author_id}") 
+                                                                or die(mysqli_error($connection));
+                            echo mysqli_fetch_assoc($author)['username'];
+
+                            ?>
+                        </p>
+                        <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $post_date; ?></p>
+                        <hr>
+
+                        <a href="/cms/post/<?php echo $post_id; ?>">
+                            <img class="img-responsive" src="images/<?php echo $post_image; ?>" alt="">
+                        </a>
+                        
+                        <hr>
+                        <p><?php echo $post_content; ?></p>
+                        
+
+                        <hr>
+
+                        <?php
+                        }
+                        ?>
+
+                        <ul class="pager">
+                            <?php
+                                if($pages)
+                                {
+                                    echo "<a href='?page=1'> Prva </a>";
+                                    for($i = 1; $i <= $pages; $i++) {
+                                        if($i == $current_page)
+                                            echo "<li class='active'><a href='?page={$i}'> {$i} </a></li>";
+                                        else
+                                            echo "<li><a href='?page={$i}'> {$i} </a></li>";
+                                    }
+                                } 
+                            ?>
+                        </ul>
 
                     <?php
                     }
-                    ?>
 
-                    <ul class="pager">
-                        <?php
-                            if($pages)
-                            {
-                                echo "<a href='?page=1'> Prva </a>";
-                                for($i = 1; $i <= $pages; $i++) {
-                                    if($i == $current_page)
-                                        echo "<li class='active'><a href='?page={$i}'> {$i} </a></li>";
-                                    else
-                                        echo "<li><a href='?page={$i}'> {$i} </a></li>";
-                                }
-                            } 
-                        ?>
-                    </ul>
-
-                <?php
                 }
                 else
                 {

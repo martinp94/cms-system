@@ -7,6 +7,31 @@ function escape($string)
     return mysqli_real_escape_string($connection, trim($string));
 }
 
+function isRequestMethod($method = null)
+{
+    if($_SERVER['REQUEST_METHOD'] == strtoupper($method)) 
+    {
+        return true;
+    }
+
+    return false;
+}
+
+function isLoggedIn() 
+{
+    if(isset($_SESSION['role']))
+        return $_SESSION['role'];
+    return false;
+}
+
+function checkIfUserIsLoggedInAndRedirect($redirectLocation = null)
+{
+    if(isLoggedIn())
+    {
+        header("Location: $redirectLocation");
+    }
+}
+
 function users_online() 
 {
     global $connection;
@@ -89,38 +114,6 @@ function insert_categories()
     }
 }
 
-function edit_categories() 
-{
-
-	include '../includes/db.php';
-	//global $connection;
-	
-	if(isset($_POST['editCategory']))
-	{
-		$cat = json_decode($_POST['editCategory']);
-
-	    $cat_id = $cat->cat_id;
-	    $cat_title = $cat->cat_title;
-
-
-
-	    $query = "UPDATE categories SET cat_title = '{$cat_title}' WHERE cat_id = {$cat_id}";
-
-	    $editCategory = mysqli_query($connection, $query);
-
-	    if(!$editCategory){
-	    	die(mysqli_error($connection));
-	    }
-
-	    echo $cat_title;
-	}
-}
-
-if(isset($_POST['editCategory']))
-{
-	edit_categories();
-}
-
 
 
 function delete_categories()
@@ -159,7 +152,7 @@ function find_all_categories()
     echo '<table class="table table-bordered table-hover">
             <thead>
                 <tr>
-                    <th class="text-center">Id</th>
+                    
                     <th class="text-center">Category title</th>
                     <th class="text-center">Options</th>
                 </tr>
@@ -175,7 +168,7 @@ function find_all_categories()
             {
 
             echo '<tr>
-                    <td>' . $row["cat_id"] . '</td>
+                    
                                         <td id="title' . $row['cat_id'] . '">' . $row['cat_title'] . '</td>
                                         <td class="text-center"> <a href="javascript:edit(' . $row["cat_id"] . ')"> <span class="glyphicon glyphicon-edit"> </span> </a>
                                         <a href="?delete=' . $row['cat_id'] . '"> <span class="glyphicon glyphicon-trash" style="color: darkred;"> </span> </a></td>
@@ -190,7 +183,6 @@ function find_all_categories()
 }
 
 
-
 function deletePosts()
 {
     global $connection;
@@ -201,9 +193,10 @@ function deletePosts()
     if($_SESSION['role'] != 'admin')
         return false;
 
-    if(isset($_GET['delete']))
+    if(isset($_POST['deletepost']))
     {
-        $query = "DELETE FROM posts WHERE post_id = {$_GET['delete']}";
+        $post_id = $_POST['delete_post_id'];
+        $query = "DELETE FROM posts WHERE post_id = {$post_id}";
         if(mysqli_query($connection, $query))
             header("Location: posts.php");
     }
@@ -255,6 +248,30 @@ function tableRowCounter($table, $where = [])
 
     return $counter['count'];
 }
+
+function isAdmin($username = '') 
+{   
+    global $connection;
+
+    $query = "SELECT user_role FROM users WHERE username = '{$username}'";
+    $is_admin_query = mysqli_query($connection, $query);
+
+    $is_admin = mysqli_fetch_assoc($is_admin_query)['user_role'];
+
+    if($is_admin == 'admin')
+        return true;
+    return false;
+
+}
+
+
+if(isset($_SESSION['username'])) {
+
+    if(!isAdmin($_SESSION['username']))
+        header("Location: ../index.php");
+}
+else
+    header("Location: ../index.php");
 
 
 ?>
