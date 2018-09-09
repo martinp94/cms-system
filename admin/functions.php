@@ -104,12 +104,6 @@ function insert_categories()
   			
   			header('Location: categories.php');
         } 
-        else
-        {
-            echo "<h1> MRS </h1>";
-        }
-
-        
 
     }
 }

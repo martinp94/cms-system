@@ -115,7 +115,7 @@
                 <?php 
                     if(isset($_POST['create_comment'])) 
                     {
-                        $the_post_id = escape($_GET['p_id']);
+                        $the_post_id = escape($_POST['p_id']);
 
                         $comment_author = escape($_POST['comment_author']);
                         $comment_email = escape($_POST['comment_email']);
@@ -168,7 +168,7 @@
                 <!-- Comments Form -->
                 <div class="well">
                     <h4>Leave a Comment:</h4>
-                    <form action="" method="POST" role="form">
+                    <form action="/cms/post.php" method="POST" role="form">
 
                         <div class="form-group">
                             <label for="comment_author">Author</label>
@@ -185,6 +185,8 @@
                             <textarea id="editor" name="comment_content" class="form-control"></textarea>
                         </div>
 
+                        <input type="hidden" name="p_id" value="<?php echo $_GET['p_id']; ?>">
+
                         <button name="create_comment" type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
@@ -198,6 +200,7 @@
                 <?php
 
                 $the_post_id = $_GET['p_id'];
+
 
                 $query = "SELECT * FROM comments WHERE comment_post_id = {$the_post_id} AND comment_status = 'Approved' ORDER BY comment_id DESC";
                 $comments = mysqli_query($connection, $query);
